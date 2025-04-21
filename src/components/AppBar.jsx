@@ -1,32 +1,13 @@
-import { View, StyleSheet, Text, Pressable } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native';
-import Constants from 'expo-constants';
-
-const styles = StyleSheet.create({
-    container: {
-        paddingTop: Constants.statusBarHeight,
-        // ...
-    },
-    topBarContainer: {
-        backgroundColor: '#24292e',
-        paddingTop: 16,
-        paddingHorizontal: 16,
-        paddingBottom: 16,
-    },
-    topBarTitle: {
-        color: '#ffffff',
-        fontSize: 24,
-        fontWeight: 'bold',
-    },
-    // ...
-});
+import theme from './theme';
 
 const AppBar = () => {
     return (
         <SafeAreaView>
-            <View style={styles.topBarContainer}>
+            <View style={theme.appBar.container}>
                 <Pressable>
-                    <Text style={styles.topBarTitle}>Repositories</Text>
+                    <Text style={theme.appBar.title}>Repositories</Text>
                 </Pressable>
             </View>
         </SafeAreaView>
