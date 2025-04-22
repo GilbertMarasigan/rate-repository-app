@@ -1,10 +1,16 @@
+import { StatusBar } from 'expo-status-bar';
+import { NativeRouter } from 'react-router-native';
+
 import Main from './src/components/Main'
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const App = () => {
   return (
     <SafeAreaProvider>
-      <Main />
+      <NativeRouter>
+        <Main />
+      </NativeRouter>
+      <StatusBar style='auto' />
     </SafeAreaProvider>
   );
 }

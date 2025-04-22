@@ -28,19 +28,6 @@ const theme = {
     avatar: {
         size: 50,
     },
-    appBar: {
-        container: {
-            backgroundColor: '#24292e',
-            paddingTop: 16,
-            paddingHorizontal: 16,
-            paddingBottom: 16,
-        },
-        title: {
-            color: '#ffffff',
-            fontSize: 24,
-            fontWeight: '700',
-        },
-    },
     repositoryItem: {
         container: {
             display: 'flex',
