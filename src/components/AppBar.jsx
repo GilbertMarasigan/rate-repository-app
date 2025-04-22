@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native';
 import { Link } from 'react-router-native';
 
@@ -28,16 +28,23 @@ const AppBar = () => {
     return (
         <SafeAreaView>
             <View style={styles.appBar.container}>
-                <View style={styles.appBar.tab}>
-                    <Link to="/" underlayColor="transparent">
-                        <Text style={styles.appBar.title}>Repositories</Text>
-                    </Link>
-                </View>
-                <View style={styles.appBar.tab}>
-                    <Link to="/signin" underlayColor="transparent">
-                        <Text style={styles.appBar.title}>Sign In</Text>
-                    </Link>
-                </View>
+                <ScrollView
+                    horizontal
+                    contentContainerStyle={{ flexDirection: 'row', alignItems: 'center' }}
+                    showsHorizontalScrollIndicator={false}
+                    style={{ flexGrow: 1 }}
+                >
+                    <View style={styles.appBar.tab}>
+                        <Link to="/" underlayColor="transparent">
+                            <Text style={styles.appBar.title}>Repositories</Text>
+                        </Link>
+                    </View>
+                    <View style={[styles.appBar.tab, { marginLeft: 30 }]}>
+                        <Link to="/signin" underlayColor="transparent">
+                            <Text style={styles.appBar.title}>Sign In</Text>
+                        </Link>
+                    </View>
+                </ScrollView>
             </View>
         </SafeAreaView>
     );
