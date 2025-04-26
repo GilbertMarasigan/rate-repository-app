@@ -14,10 +14,10 @@ const useRepositories = () => {
         console.error('Apollo error:', error.message);
     }
 
-    console.log('GraphQL data:', JSON.stringify(data, null, 2));
-
     // Ensure that data is available and transform the data into repositories list
     const repositories = data?.repositories?.edges?.map(edge => edge.node) ?? [];
+
+    console.log('GraphQL repositories data:', repositories);
 
     return { repositories, loading, error };
 };

@@ -101,7 +101,7 @@ const RepoDetails = ({ title, image, description, language }) => {
 const RepositoryItem = ({ item }) => {
     return (
         <View style={theme.repositoryItem.container}>
-            <RepoDetails title={item.fullName} image={item.ownerAvatarUrl} description={item.description} language={item.language} />
+            <RepoDetails key={item.id} title={item.fullName} image={item.ownerAvatarUrl} description={item.description} language={item.language} />
             <RepoStats stargazersCount={item.stargazersCount} forksCount={item.forksCount} reviewCount={item.reviewCount} ratingAverage={item.ratingAverage} />
         </View>
     )
