@@ -1,7 +1,7 @@
 import { Text, View, TextInput, StyleSheet, Button } from 'react-native';
 import { useFormik } from 'formik';
 import * as yup from 'yup'
-// import Text from './Text';
+import useSignIn from './hooks/useSignIn';
 
 const styles = StyleSheet.create({
     form: {
@@ -93,8 +93,17 @@ const SignInForm = ({ onSubmit }) => {
 
 const SignIn = () => {
 
-    const handleSubmit = (values) => {
+    const [signIn] = useSignIn();
+
+    const handleSubmit = async (values) => {
         console.log('Submitted vaues', values)
+
+        try {
+            const token = await signIn(values);
+            console.log('Access Token: ', token)
+        } catch (error) {
+            console.error('Sign-in failed: ', error.message)
+        }
     }
 
 
