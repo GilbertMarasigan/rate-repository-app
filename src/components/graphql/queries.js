@@ -27,3 +27,12 @@ mutation Authenticate($credentials: AuthenticateInput!) {
   }
 }
 `;
+
+export const USER_LOGGED_IN = gql`
+  query {
+  me {
+    id
+    username
+  }
+}
+`;

@@ -52,8 +52,6 @@ const validationSchema = yup.object().shape({
 
 const SignInForm = ({ onSubmit }) => {
 
-    console.log('test')
-
     const formik = useFormik({
         initialValues,
         validationSchema,
