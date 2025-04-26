@@ -2,6 +2,7 @@ import { Text, View, TextInput, StyleSheet, Button } from 'react-native';
 import { useFormik } from 'formik';
 import * as yup from 'yup'
 import useSignIn from './hooks/useSignIn';
+import { useNavigate } from 'react-router-native';
 
 const styles = StyleSheet.create({
     form: {
@@ -94,6 +95,7 @@ const SignInForm = ({ onSubmit }) => {
 const SignIn = () => {
 
     const [signIn] = useSignIn();
+    const navigate = useNavigate();
 
     const handleSubmit = async (values) => {
         console.log('Submitted vaues', values)
@@ -101,6 +103,7 @@ const SignIn = () => {
         try {
             const token = await signIn(values);
             console.log('Access Token: ', token)
+            navigate(-1);
         } catch (error) {
             console.error('Sign-in failed: ', error.message)
         }

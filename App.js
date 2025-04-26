@@ -6,7 +6,10 @@ import Constants from 'expo-constants';
 import Main from './src/components/Main'
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import createApolloClient from './src/components/utils/apolloClient';
+import AuthStorage from './src/components/utils/authStorage';
+import AuthStorageContext from './src/components/contexts/AuthStorageContext';
 
+const authStorage = new AuthStorage();
 const apolloClient = createApolloClient();
 
 const App = () => {
@@ -17,7 +20,9 @@ const App = () => {
     <SafeAreaProvider>
       <NativeRouter>
         <ApolloProvider client={apolloClient}>
-          <Main />
+          <AuthStorageContext.Provider value={authStorage}>
+            <Main />
+          </AuthStorageContext.Provider>
         </ApolloProvider>
       </NativeRouter>
       <StatusBar style='auto' />
