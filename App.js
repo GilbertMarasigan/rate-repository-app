@@ -5,9 +5,9 @@ import Constants from 'expo-constants';
 
 import Main from './src/components/Main'
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import createApolloClient from './src/components/utils/apolloClient';
-import AuthStorage from './src/components/utils/authStorage';
-import AuthStorageContext from './src/components/contexts/AuthStorageContext';
+import createApolloClient from './src/utils/apolloClient';
+import AuthStorage from './src/utils/authStorage';
+import AuthStorageContext from './src/contexts/AuthStorageContext';
 
 const authStorage = new AuthStorage();
 const apolloClient = createApolloClient(authStorage);

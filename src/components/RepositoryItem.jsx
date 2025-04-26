@@ -1,5 +1,5 @@
 import { View, Text, Image, StyleSheet } from 'react-native'
-import theme from './theme';
+import theme from '../theme/theme';
 
 const styles = StyleSheet.create({
     language: {

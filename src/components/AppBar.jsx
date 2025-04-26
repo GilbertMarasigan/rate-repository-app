@@ -2,9 +2,9 @@ import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native';
 import { Link } from 'react-router-native';
 import { useApolloClient, useQuery } from '@apollo/client';
-import useAuthStorage from './hooks/useAuthStorage';
+import useAuthStorage from '../hooks/useAuthStorage';
 import { useNavigate } from 'react-router-native';
-import { USER_LOGGED_IN } from './graphql/queries';
+import { USER_LOGGED_IN } from '../graphql/queries';
 
 const styles = StyleSheet.create({
     appBar: {
