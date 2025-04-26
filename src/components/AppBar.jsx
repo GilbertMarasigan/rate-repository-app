@@ -1,18 +1,10 @@
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native';
 import { Link } from 'react-router-native';
-import { useApolloClient, gql, useQuery } from '@apollo/client';
+import { useApolloClient, useQuery } from '@apollo/client';
 import useAuthStorage from './hooks/useAuthStorage';
 import { useNavigate } from 'react-router-native';
-
-const ME_QUERY = gql`
-  query {
-    me {
-      id
-      username
-    }
-  }
-`;
+import { USER_LOGGED_IN } from './graphql/queries';
 
 const styles = StyleSheet.create({
     appBar: {
@@ -42,7 +34,7 @@ const AppBar = () => {
     const authStorage = useAuthStorage();
     const navigate = useNavigate();
 
-    const { data, loading } = useQuery(ME_QUERY, {
+    const { data } = useQuery(USER_LOGGED_IN, {
         fetchPolicy: 'cache-and-network',
     });
 
