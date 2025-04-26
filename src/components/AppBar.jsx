@@ -51,7 +51,6 @@ const AppBar = () => {
     console.log('isLoggedIn', isLoggedIn)
     console.log('data', data)
 
-
     const signOut = async () => {
         console.log('sign out')
         await authStorage.removeAccessToken();
@@ -73,11 +72,19 @@ const AppBar = () => {
                             <Text style={styles.appBar.title}>Repositories</Text>
                         </Link>
                     </View>
-                    <View style={[styles.appBar.tab, { marginLeft: 30 }]}>
-                        <Link to="/signin" underlayColor="transparent">
-                            <Text style={styles.appBar.title}>Sign-in</Text>
-                        </Link>
-                    </View>
+                    {isLoggedIn ? (
+                        <View style={[styles.appBar.tab, { marginLeft: 30 }]}>
+                            <Text onPress={signOut} style={styles.appBar.title}>
+                                Sign Out
+                            </Text>
+                        </View>
+                    ) : (
+                        <View style={[styles.appBar.tab, { marginLeft: 30 }]}>
+                            <Link to="/signin" underlayColor="transparent">
+                                <Text style={styles.appBar.title}>Sign In</Text>
+                            </Link>
+                        </View>
+                    )}
                 </ScrollView>
             </View>
         </SafeAreaView>
