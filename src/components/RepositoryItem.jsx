@@ -49,19 +49,19 @@ const RepoStats = ({ stargazersCount, forksCount, reviewCount, ratingAverage }) 
     return (
         <View style={styles.statsSection}>
             <View style={styles.statsItem}>
-                <Text style={styles.statNumber}>{shortenNumber(stargazersCount)}</Text>
+                <Text testID="Stars" style={styles.statNumber}>{shortenNumber(stargazersCount)}</Text>
                 <Text style={styles.statLabel}>Stars</Text>
             </View>
             <View style={styles.statsItem}>
-                <Text style={styles.statNumber}>{shortenNumber(forksCount)}</Text>
+                <Text testID="Forks" style={styles.statNumber}>{shortenNumber(forksCount)}</Text>
                 <Text style={styles.statLabel}>Forks</Text>
             </View>
             <View style={styles.statsItem}>
-                <Text style={styles.statNumber}>{shortenNumber(reviewCount)}</Text>
+                <Text testID="Reviews" style={styles.statNumber}>{shortenNumber(reviewCount)}</Text>
                 <Text style={styles.statLabel}>Reviews</Text>
             </View>
             <View style={styles.statsItem}>
-                <Text style={styles.statNumber}>{shortenNumber(ratingAverage)}</Text>
+                <Text testID="Rating" style={styles.statNumber}>{shortenNumber(ratingAverage)}</Text>
                 <Text style={styles.statLabel}>Rating</Text>
             </View>
         </View>
@@ -80,14 +80,14 @@ const RepoDetails = ({ title, image, description, language }) => {
                     <Image style={theme.repositoryItem.avatar} source={{ uri: image }}></Image>
                 </View>
                 <View style={theme.repositoryItem.headerContent}>
-                    <Text style={theme.repositoryItem.title}>
+                    <Text testID="title" style={theme.repositoryItem.title}>
                         {title}
                     </Text>
-                    <Text style={theme.repositoryItem.description}>
+                    <Text testID="description" style={theme.repositoryItem.description}>
                         {description}
                     </Text>
                     <View style={styles.language}>
-                        <Text style={styles.languageText}>
+                        <Text testID="language" style={styles.languageText}>
                             {language}
                         </Text>
                     </View>
@@ -100,7 +100,7 @@ const RepoDetails = ({ title, image, description, language }) => {
 
 const RepositoryItem = ({ item }) => {
     return (
-        <View style={theme.repositoryItem.container}>
+        <View testID="repositoryItem" style={theme.repositoryItem.container}>
             <RepoDetails key={item.id} title={item.fullName} image={item.ownerAvatarUrl} description={item.description} language={item.language} />
             <RepoStats stargazersCount={item.stargazersCount} forksCount={item.forksCount} reviewCount={item.reviewCount} ratingAverage={item.ratingAverage} />
         </View>

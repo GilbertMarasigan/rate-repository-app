@@ -1,4 +1,4 @@
-import { FlatList, View, StyleSheet, Text } from 'react-native';
+import { FlatList, View, StyleSheet } from 'react-native';
 import RepositoryItem from './RepositoryItem';
 import useRepositories from '../hooks/useRepositories';
 
@@ -23,7 +23,7 @@ export const RepositoryListContainer = ({ repositories }) => {
 };
 
 const RepositoryList = () => {
-    const { repositories, loading, error } = useRepositories();
+    const { repositories } = useRepositories();
     return <RepositoryListContainer repositories={repositories} />;
 }
 
