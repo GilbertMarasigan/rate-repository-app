@@ -50,7 +50,7 @@ const validationSchema = yup.object().shape({
 })
 
 
-const SignInForm = ({ onSubmit }) => {
+export const SignInForm = ({ onSubmit }) => {
 
     const formik = useFormik({
         initialValues,
