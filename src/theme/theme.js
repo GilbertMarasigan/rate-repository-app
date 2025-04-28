@@ -46,8 +46,6 @@ const theme = {
         },
         headerAvatar: {
             flexGrow: 0.1,
-            alignItems: 'center',
-            justifyContent: 'center',
         },
         headerContent: {
             flexGrow: 1,

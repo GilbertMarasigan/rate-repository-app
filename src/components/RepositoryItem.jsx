@@ -1,4 +1,5 @@
-import { View, Text, Image, StyleSheet } from 'react-native'
+import { View, Text, Image, StyleSheet, Pressable } from 'react-native'
+import { useNavigate } from 'react-router-native';
 import theme from '../theme/theme';
 
 const styles = StyleSheet.create({
@@ -72,7 +73,6 @@ const RepoStats = ({ stargazersCount, forksCount, reviewCount, ratingAverage }) 
 
 const RepoDetails = ({ title, image, description, language }) => {
 
-
     return (
         <>
             <View style={theme.repositoryItem.itemHeader}>
@@ -99,12 +99,26 @@ const RepoDetails = ({ title, image, description, language }) => {
 }
 
 const RepositoryItem = ({ item }) => {
+
+    const navigate = useNavigate();
+
+    const redirectSingleDetail = () => {
+        console.log(`redirect to /${item.id}`);
+        navigate(`/${item.id}`);
+    }
+
+    console.log('item', item)
+
     return (
-        <View testID="repositoryItem" style={theme.repositoryItem.container}>
-            <RepoDetails key={item.id} title={item.fullName} image={item.ownerAvatarUrl} description={item.description} language={item.language} />
-            <RepoStats stargazersCount={item.stargazersCount} forksCount={item.forksCount} reviewCount={item.reviewCount} ratingAverage={item.ratingAverage} />
-        </View>
+        <Pressable onPress={redirectSingleDetail}>
+            <View testID="repositoryItem" style={theme.repositoryItem.container}>
+                <RepoDetails key={item.id} title={item.fullName} image={item.ownerAvatarUrl} description={item.description} language={item.language} />
+                <RepoStats stargazersCount={item.stargazersCount} forksCount={item.forksCount} reviewCount={item.reviewCount} ratingAverage={item.ratingAverage} />
+            </View>
+        </Pressable>
     )
 }
+
+export { RepoDetails, RepoStats };
 
 export default RepositoryItem
