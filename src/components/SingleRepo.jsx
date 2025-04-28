@@ -1,4 +1,5 @@
-import { View, Text, ActivityIndicator, StyleSheet, Pressable } from 'react-native';
+import { View, Text, ActivityIndicator, StyleSheet, Pressable, Linking, AppState } from 'react-native';
+import { useEffect, useState } from 'react';
 import { useParams } from "react-router-native";
 import { useQuery } from "@apollo/client";
 import { SINGLE_REPO } from "../graphql/queries";
@@ -36,9 +37,11 @@ const styles = StyleSheet.create({
 });
 
 
-const FullWidthButton = () => {
+const FullWidthButton = ({ link }) => {
+
     const handlePress = () => {
         console.log('Button Pressed!');
+        Linking.openURL(link);
     };
 
     return (
@@ -51,13 +54,32 @@ const FullWidthButton = () => {
 };
 
 const SingleRepo = () => {
+
     let { id } = useParams();
+
     console.log('id', id);
 
-    const { data, loading, error } = useQuery(SINGLE_REPO, {
+    const [appState, setAppState] = useState(AppState.currentState);
+
+    const { data, loading, error, refetch } = useQuery(SINGLE_REPO, {
         fetchPolicy: 'cache-and-network',
         variables: { repositoryId: id }
     });
+
+    useEffect(() => {
+        const subscription = AppState.addEventListener('change', nextAppState => {
+            if (appState.match(/inactive|background/) && nextAppState === 'active') {
+                console.log('App has come to the foreground, refetching...');
+                refetch();
+            }
+            setAppState(nextAppState);
+        });
+
+        return () => {
+            subscription.remove();
+        };
+    }, [appState]);
+
 
     if (loading) {
         return (
@@ -78,6 +100,15 @@ const SingleRepo = () => {
     const item = data?.repository;
     console.log('repoDetails', item);
 
+    if (!item) {
+        return (
+            <View style={styles.loadingContainer}>
+                <ActivityIndicator size="large" />
+            </View>
+        );
+    }
+
+
     return (
         <View style={[theme.repositoryItem.container, { backgroundColor: 'white' }]}>
             <RepoDetails
@@ -94,7 +125,7 @@ const SingleRepo = () => {
                 ratingAverage={item.ratingAverage}
                 styles={styles}  // Pass styles to RepoStats
             />
-            <FullWidthButton />
+            <FullWidthButton link={item.url} />
         </View>
 
     );
