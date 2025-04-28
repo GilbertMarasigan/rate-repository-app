@@ -22,14 +22,14 @@ const styles = StyleSheet.create({
         padding: 16,
     },
     button: {
-        backgroundColor: '#007BFF', // Bootstrap blue
+        backgroundColor: '#007BFF',
         paddingVertical: 14,
         borderRadius: 8,
         alignItems: 'center',
-        width: '100%', // Full width
+        width: '100%',
     },
     buttonText: {
-        color: '#fff', // White font
+        color: '#fff',
         fontSize: 16,
         fontWeight: 'bold',
     }
