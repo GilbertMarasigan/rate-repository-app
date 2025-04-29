@@ -158,12 +158,6 @@ const RepositoryInfo = ({ repository }) => {
                 styles={styles}  // Pass styles to RepoStats
             />
             <FullWidthButton link={repository.url} />
-            {/* <FlatList
-                data={repository.reviews.edges.map(edge => edge.node)}
-                ItemSeparatorComponent={ItemSeparator}
-                renderItem={({ item }) => <RepositoryItem item={item} />}
-                keyExtractor={(item) => item.id}
-            /> */}
         </View>
 
     );
