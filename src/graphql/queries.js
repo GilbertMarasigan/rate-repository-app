@@ -49,6 +49,20 @@ query Repository($repositoryId: ID!) {
     stargazersCount,
     forksCount,
     reviewCount,
-    ratingAverage
+    ratingAverage,
+    reviews {
+      edges {
+        node {
+          id
+          text
+          rating
+          createdAt
+          user {
+            id
+            username
+          }
+        }
+      }
+    }
   }
 }`
