@@ -14,8 +14,8 @@ const Main = () => {
             <SafeAreaView style={{ flex: 1, backgroundColor: "#e1e4e8" }}>
                 <AppBar />
                 <Routes>
-                    {/* <Route path='/' element={<RepositoryList />} /> */}
-                    <Route path='/' element={<CreateReview />} />
+                    <Route path='/' element={<RepositoryList />} />
+                    {/* <Route path='/' element={<CreateReview />} /> */}
                     <Route path='/createReview' element={<CreateReview />} />
                     <Route path='/signin' element={<SignIn />} />
                     <Route path=':id' element={<SingleRepo />} />

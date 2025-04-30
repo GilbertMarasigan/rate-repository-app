@@ -1,8 +1,10 @@
 import { Text, View, TextInput, StyleSheet, Pressable } from 'react-native';
+import { Navigate } from 'react-router-native';
+import { useMutation, useQuery } from '@apollo/client';
 import { useFormik } from 'formik';
 import * as yup from 'yup'
-import useSignIn from '../hooks/useSignIn';
 import { useNavigate } from 'react-router-native';
+import { CREATE_REVIEW, USER_LOGGED_IN } from '../graphql/queries';
 
 const styles = StyleSheet.create({
     form: {
@@ -64,7 +66,9 @@ const validationSchema = yup.object().shape({
         .required('Repistory owner name is required'),
     rating: yup
         .number()
-        .required('Rating is required'),
+        .required('Rating is required')
+        .min(0, 'Minimum is 0')
+        .max(100, 'Maximum is 100'),
     text: yup
         .string(),
 })
@@ -123,6 +127,8 @@ export const ReviewForm = ({ onSubmit }) => {
                 value={formik.values.text}
                 onChangeText={formik.handleChange('text')}
                 onBlur={formik.handleBlur('text')}
+                multiline
+                numberOfLines={4}
             />
             {formik.touched.text && formik.errors.text && (
                 <Text style={styles.errorText}>{formik.errors.text}</Text>
@@ -139,20 +145,40 @@ export const ReviewForm = ({ onSubmit }) => {
 
 const CreateReview = () => {
 
-    const [signIn] = useSignIn();
+    const { data } = useQuery(USER_LOGGED_IN, {
+        fetchPolicy: 'cache-and-network',
+    });
+
+    const isLoggedIn = data?.me !== null;
+
+    console.log('isLoggedIn', isLoggedIn)
+
+    if (!isLoggedIn) {
+        return <Navigate to="/" replace />;
+    }
+
     const navigate = useNavigate();
+    const [mutate] = useMutation(CREATE_REVIEW)
 
     const handleSubmit = async (values) => {
-        console.log('Submitted vaues', values)
+        console.log('Submitted values', values)
 
-
-        // try {
-        //     const token = await signIn(values);
-        //     console.log('Access Token: ', token)
-        //     navigate(-1);
-        // } catch (error) {
-        //     console.error('Sign-in failed: ', error.message)
-        // }
+        try {
+            const { data: { createReview } } = await mutate({
+                variables: {
+                    review: {
+                        ownerName: values.ownerName,
+                        repositoryName: values.repositoryName,
+                        rating: Number(values.rating),
+                        text: values.text,
+                    }
+                }
+            });
+            console.log("Review created:", data);
+            navigate(`/${createReview.repositoryId}`);
+        } catch (e) {
+            console.error("Error creating review", e.message);
+        }
     }
 
     return (

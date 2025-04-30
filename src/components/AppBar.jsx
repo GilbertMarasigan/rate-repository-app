@@ -64,12 +64,18 @@ const AppBar = () => {
                             <Text style={styles.appBar.title}>Repositories</Text>
                         </Link>
                     </View>
-                    {isLoggedIn ? (
+                    {isLoggedIn ? (<>
+                        <View style={[styles.appBar.tab, { marginLeft: 30 }]}>
+                            <Text onPress={() => navigate('/createReview')} style={styles.appBar.title}>
+                                Create a Review
+                            </Text>
+                        </View>
                         <View style={[styles.appBar.tab, { marginLeft: 30 }]}>
                             <Text onPress={signOut} style={styles.appBar.title}>
                                 Sign Out
                             </Text>
                         </View>
+                    </>
                     ) : (
                         <View style={[styles.appBar.tab, { marginLeft: 30 }]}>
                             <Link to="/signin" underlayColor="transparent">
