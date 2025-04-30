@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
 
 const initialValues = {
     ownerName: '',
-    rating: 0,
+    rating: '',
     repositoryName: '',
     text: ''
 }
@@ -62,11 +62,11 @@ const validationSchema = yup.object().shape({
     repositoryName: yup
         .string()
         .required('Repistory owner name is required'),
-    text: yup
-        .string(),
     rating: yup
         .number()
         .required('Rating is required'),
+    text: yup
+        .string(),
 })
 
 
