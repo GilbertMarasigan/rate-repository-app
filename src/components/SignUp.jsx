@@ -1,4 +1,5 @@
 import { Text, View, TextInput, StyleSheet, Pressable } from 'react-native';
+import { useMutation } from '@apollo/client';
 import { useFormik } from 'formik';
 import * as yup from 'yup'
 import useSignIn from '../hooks/useSignIn';
@@ -115,16 +116,33 @@ const SignUp = () => {
     const [signIn] = useSignIn();
     const navigate = useNavigate();
 
-    const handleSubmit = async (values) => {
-        console.log('Submitted values', values)
+    const [mutate] = useMutation(CREATE_USER)
 
-        // try {
-        //     const token = await signIn(values);
-        //     console.log('Access Token: ', token)
-        //     navigate(-1);
-        // } catch (error) {
-        //     console.error('Sign-in failed: ', error.message)
-        // }
+    const handleSubmit = async (values) => {
+
+
+        try {
+            const { data: { createUser } } = await mutate({
+                variables: {
+                    user: {
+                        username: values.username,
+                        password: values.password
+                    }
+                }
+            });
+            console.log("Account created:", createUser.username);
+
+            try {
+                const token = await signIn(values);
+                console.log('Access Token: ', token)
+                navigate(`/`);
+            } catch (error) {
+                console.error('Sign-in failed: ', error.message)
+            }
+
+        } catch (e) {
+            console.error("Error creating review", e.message);
+        }
     }
 
     return (
