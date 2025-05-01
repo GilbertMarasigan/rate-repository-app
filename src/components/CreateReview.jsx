@@ -5,6 +5,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup'
 import { useNavigate } from 'react-router-native';
 import { CREATE_REVIEW, USER_LOGGED_IN } from '../graphql/queries';
+import theme from '../theme/theme';
 
 const styles = StyleSheet.create({
     form: {
@@ -35,19 +36,7 @@ const styles = StyleSheet.create({
         borderColor: 'red',
         borderWidth: 2,
     },
-    button: {
-        backgroundColor: '#007BFF',
-        paddingVertical: 14,
-        borderRadius: 8,
-        alignItems: 'center',
-        width: '100%',
-        marginTop: 16
-    },
-    buttonText: {
-        color: '#fff',
-        fontSize: 16,
-        fontWeight: 'bold',
-    },
+
 })
 
 const initialValues = {
@@ -135,8 +124,8 @@ export const ReviewForm = ({ onSubmit }) => {
             )}
 
 
-            <Pressable style={styles.button} onPress={formik.handleSubmit}>
-                <Text style={styles.buttonText}>Create a review</Text>
+            <Pressable style={theme.button} onPress={formik.handleSubmit}>
+                <Text style={theme.buttonText}>Create a review</Text>
             </Pressable>
         </View>
     )

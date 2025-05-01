@@ -69,6 +69,19 @@ const theme = {
             paddingBottom: 8
         },
     },
+    button: {
+        backgroundColor: '#007BFF',
+        paddingVertical: 14,
+        borderRadius: 8,
+        alignItems: 'center',
+        width: '100%',
+        marginTop: 16
+    },
+    buttonText: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
 };
 
 export default theme;

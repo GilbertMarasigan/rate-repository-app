@@ -77,11 +77,18 @@ const AppBar = () => {
                         </View>
                     </>
                     ) : (
-                        <View style={[styles.appBar.tab, { marginLeft: 30 }]}>
-                            <Link to="/signin" underlayColor="transparent">
-                                <Text style={styles.appBar.title}>Sign In</Text>
-                            </Link>
-                        </View>
+                        <>
+                            <View style={[styles.appBar.tab, { marginLeft: 30 }]}>
+                                <Link to="/signin" underlayColor="transparent">
+                                    <Text style={styles.appBar.title}>Sign In</Text>
+                                </Link>
+                            </View>
+                            <View style={[styles.appBar.tab, { marginLeft: 30 }]}>
+                                <Link to="/signup" underlayColor="transparent">
+                                    <Text style={styles.appBar.title}>Sign Up</Text>
+                                </Link>
+                            </View>
+                        </>
                     )}
                 </ScrollView>
             </View>

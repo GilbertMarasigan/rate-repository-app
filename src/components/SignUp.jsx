@@ -3,6 +3,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup'
 import useSignIn from '../hooks/useSignIn';
 import { useNavigate } from 'react-router-native';
+import { CREATE_USER } from '../graphql/queries';
 import theme from '../theme/theme';
 
 const styles = StyleSheet.create({
@@ -38,7 +39,8 @@ const styles = StyleSheet.create({
 
 const initialValues = {
     username: '',
-    password: ''
+    password: '',
+    passwordConfirmation: ''
 }
 
 const validationSchema = yup.object().shape({
@@ -47,11 +49,14 @@ const validationSchema = yup.object().shape({
         .required('Username is required'),
     password: yup
         .string()
-        .required('Password is required')
+        .required('Password is required'),
+    passwordConfirmation: yup.string()
+        .oneOf([yup.ref('password'), null], 'Passwords must match')
+        .required('Password confirm is required')
 })
 
 
-export const SignInForm = ({ onSubmit }) => {
+export const SignUpForm = ({ onSubmit }) => {
 
     const formik = useFormik({
         initialValues,
@@ -85,36 +90,48 @@ export const SignInForm = ({ onSubmit }) => {
             {formik.touched.password && formik.errors.password && (
                 <Text style={styles.errorText}>{formik.errors.password}</Text>
             )}
+
+            <TextInput
+                style={[styles.field, formik.touched.passwordConfirmation && formik.errors.passwordConfirmation && styles.errorField]}
+                placeholder='Password confirmation'
+                value={formik.values.passwordConfirmation}
+                secureTextEntry={true}
+                onChangeText={formik.handleChange('passwordConfirmation')}
+                onBlur={formik.handleBlur('passwordConfirmation')}
+            />
+            {formik.touched.passwordConfirmation && formik.errors.passwordConfirmation && (
+                <Text style={styles.errorText}>{formik.errors.passwordConfirmation}</Text>
+            )}
             <Pressable style={theme.button} onPress={formik.handleSubmit}>
-                <Text style={theme.buttonText}>Sign In</Text>
+                <Text style={theme.buttonText}>Sign Up</Text>
             </Pressable>
         </View>
     )
 }
 
 
-const SignIn = () => {
+const SignUp = () => {
 
     const [signIn] = useSignIn();
     const navigate = useNavigate();
 
     const handleSubmit = async (values) => {
-        console.log('Submitted vaues', values)
+        console.log('Submitted values', values)
 
-        try {
-            const token = await signIn(values);
-            console.log('Access Token: ', token)
-            navigate(-1);
-        } catch (error) {
-            console.error('Sign-in failed: ', error.message)
-        }
+        // try {
+        //     const token = await signIn(values);
+        //     console.log('Access Token: ', token)
+        //     navigate(-1);
+        // } catch (error) {
+        //     console.error('Sign-in failed: ', error.message)
+        // }
     }
 
     return (
         <>
-            <SignInForm onSubmit={handleSubmit} />
+            <SignUpForm onSubmit={handleSubmit} />
         </>
     )
 };
 
-export default SignIn;
+export default SignUp;

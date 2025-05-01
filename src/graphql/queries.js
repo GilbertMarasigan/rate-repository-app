@@ -77,3 +77,11 @@ mutation CreateReview($review: CreateReviewInput) {
     text
   }
 }`
+
+export const CREATE_USER = gql`
+mutation CreateUser($user: CreateUserInput) {
+  createUser(user: $user) {
+    username
+  }
+}
+`
