@@ -107,7 +107,7 @@ const RepositoryItem = ({ item }) => {
         navigate(`/${item.id}`);
     }
 
-    console.log('item', item)
+    // console.log('item', item)
 
     return (
         <Pressable onPress={redirectSingleDetail}>

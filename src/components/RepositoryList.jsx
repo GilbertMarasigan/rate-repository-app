@@ -46,6 +46,7 @@ const SortRepo = ({ setSortBy }) => {
             orderDirection: sortOptions[key].orderDirection
         });
         closeMenu();
+
     };
 
     return (
