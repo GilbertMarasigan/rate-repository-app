@@ -4,7 +4,7 @@ import { useParams } from "react-router-native";
 import { useQuery } from "@apollo/client";
 import { SINGLE_REPO } from "../graphql/queries";
 import { RepoDetails, RepoStats } from "./RepositoryItem";
-import { parseISO, format } from 'date-fns';
+import { formatToMMddyyyy } from '../utils/dateFormatter';
 import theme from '../theme/theme';
 
 const size = 48;
@@ -113,11 +113,6 @@ const ReviewItem = ({ review }) => {
 
         </>
     )
-}
-
-function formatToMMddyyyy(dateString) {
-    const date = parseISO(dateString);
-    return format(date, 'MM.dd.yyyy');
 }
 
 

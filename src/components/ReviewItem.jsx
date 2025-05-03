@@ -1,124 +1,112 @@
-import { View, Text, Image, StyleSheet, Pressable } from 'react-native'
-import { useNavigate } from 'react-router-native';
-import theme from '../theme/theme';
+import { View, Text, StyleSheet } from "react-native"
+import { formatToMMddyyyy } from '../utils/dateFormatter';
+
+const size = 48;
 
 const styles = StyleSheet.create({
-    language: {
-        backgroundColor: theme.colors.primary,
-        paddingHorizontal: 6,
-        paddingVertical: 4,
-        borderRadius: 8,
-        alignSelf: 'flex-start',
-        marginBottom: 14
+    loadingContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
-    languageText: {
-        color: '#fff',
-        fontWeight: '600',
-        fontSize: 12,
-    },
-    statsSection: {
-        display: 'flex',
-        flexDirection: 'row',
-        paddingTop: 1
-    },
-    statsItem: {
-        display: 'flex',
-        flexGrow: 1,
+    errorText: {
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        fontSize: 18,
+        color: 'red'
     },
-    statNumber: {
-        textAlign: 'center',
-        fontWeight: 'bold'
+    container: {
+        padding: 16,
     },
-    statLabel: {
-        textAlign: 'center',
+    button: {
+        backgroundColor: '#007BFF',
+        paddingVertical: 14,
+        borderRadius: 8,
+        alignItems: 'center',
+        width: '100%',
+    },
+    buttonText: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    separator: {
+        height: 10,
+        backgroundColor: '#bdbdbd'
+    },
+    itemContainer: {
+        flexDirection: 'row',
+        padding: 16,
+        backgroundColor: 'white',
+        alignItems: 'flex-start',
+    },
+    scoreCircle: {
+        width: size,
+        height: size,
+        borderRadius: size / 2,
+        borderWidth: 2,
+        borderColor: '#007BFF',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: 16,
+        flexShrink: 0,
+        flexGrow: 0,
+    },
+    scoreText: {
+        color: '#007BFF',
+        fontWeight: 'bold',
+        fontSize: 16,
+    },
+    commentContent: {
+        flex: 1,
+        flexDirection: 'column',
+        minWidth: 0,
+    },
+    username: {
+        fontWeight: 'bold',
+        fontSize: 16,
+        marginBottom: 2,
+    },
+    date: {
+        color: 'gray',
         fontSize: 14,
-        fontWeight: '300',
-        color: '#586069',
-        paddingTop: 7
-    }
+        marginBottom: 8,
+    },
+    commentText: {
+        fontSize: 14,
+        lineHeight: 20,
+        flexShrink: 1,
+        flexWrap: 'wrap',
+        minWidth: 0,
+    },
 });
 
 
-const RepoStats = ({ stargazersCount, forksCount, reviewCount, ratingAverage }) => {
+const ReviewItem = ({ review }) => {
 
-    const shortenNumber = num => {
-        return num >= 1000 ? `${(num / 1000).toFixed(1)}k` : num.toString();
-    };
-
-    return (
-        <View style={styles.statsSection}>
-            <View style={styles.statsItem}>
-                <Text testID="Stars" style={styles.statNumber}>{shortenNumber(stargazersCount)}</Text>
-                <Text style={styles.statLabel}>Stars</Text>
-            </View>
-            <View style={styles.statsItem}>
-                <Text testID="Forks" style={styles.statNumber}>{shortenNumber(forksCount)}</Text>
-                <Text style={styles.statLabel}>Forks</Text>
-            </View>
-            <View style={styles.statsItem}>
-                <Text testID="Reviews" style={styles.statNumber}>{shortenNumber(reviewCount)}</Text>
-                <Text style={styles.statLabel}>Reviews</Text>
-            </View>
-            <View style={styles.statsItem}>
-                <Text testID="Rating" style={styles.statNumber}>{shortenNumber(ratingAverage)}</Text>
-                <Text style={styles.statLabel}>Rating</Text>
-            </View>
-        </View>
-    )
-}
-
-
-
-const RepoDetails = ({ title, image, description, language }) => {
-
+    console.log('review', review)
     return (
         <>
-            <View style={theme.repositoryItem.itemHeader}>
-                <View style={theme.repositoryItem.headerAvatar}>
-                    <Image style={theme.repositoryItem.avatar} source={{ uri: image }}></Image>
+            <View style={styles.itemContainer}>
+                <View style={styles.scoreCircle}>
+                    <Text style={styles.scoreText}>{review.rating}</Text>
                 </View>
-                <View style={theme.repositoryItem.headerContent}>
-                    <Text testID="title" style={theme.repositoryItem.title}>
-                        {title}
+                <View style={styles.commentContent}>
+                    <Text testID="title" style={styles.username}>
+                        {review.user.username}
                     </Text>
-                    <Text testID="description" style={theme.repositoryItem.description}>
-                        {description}
+                    <Text testID="description" style={styles.date}>
+                        {formatToMMddyyyy(review.createdAt)}
                     </Text>
-                    <View style={styles.language}>
-                        <Text testID="language" style={styles.languageText}>
-                            {language}
-                        </Text>
-                    </View>
+                    <Text testID="language" style={styles.commentText}>
+                        {review.text}
+                    </Text>
                 </View>
             </View>
 
         </>
     )
 }
-
-const ReviewItem = ({ item }) => {
-
-    const navigate = useNavigate();
-
-    const redirectSingleDetail = () => {
-        console.log(`redirect to /${item.id}`);
-        navigate(`/${item.id}`);
-    }
-
-    // console.log('item', item)
-
-    return (
-        <Pressable onPress={redirectSingleDetail}>
-            <View testID="repositoryItem" style={theme.repositoryItem.container}>
-                <RepoDetails key={item.id} title={item.fullName} image={item.ownerAvatarUrl} description={item.description} language={item.language} />
-                <RepoStats stargazersCount={item.stargazersCount} forksCount={item.forksCount} reviewCount={item.reviewCount} ratingAverage={item.ratingAverage} />
-            </View>
-        </Pressable>
-    )
-}
-
-export { RepoDetails, RepoStats };
 
 export default ReviewItem
