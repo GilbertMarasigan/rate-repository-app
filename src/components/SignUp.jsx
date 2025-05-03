@@ -1,11 +1,11 @@
-import { Text, View, TextInput, StyleSheet, Pressable } from 'react-native';
+import { Text, View, TextInput, StyleSheet } from 'react-native';
 import { useMutation } from '@apollo/client';
 import { useFormik } from 'formik';
 import * as yup from 'yup'
 import useSignIn from '../hooks/useSignIn';
 import { useNavigate } from 'react-router-native';
 import { CREATE_USER } from '../graphql/queries';
-import theme from '../theme/theme';
+import FullWidthButton from './FullWidthButton';
 
 const styles = StyleSheet.create({
     form: {
@@ -103,9 +103,7 @@ export const SignUpForm = ({ onSubmit }) => {
             {formik.touched.passwordConfirmation && formik.errors.passwordConfirmation && (
                 <Text style={styles.errorText}>{formik.errors.passwordConfirmation}</Text>
             )}
-            <Pressable style={theme.button} onPress={formik.handleSubmit}>
-                <Text style={theme.buttonText}>Sign Up</Text>
-            </Pressable>
+            <FullWidthButton label="Sign Up" onPress={formik.handleSubmit} />
         </View>
     )
 }

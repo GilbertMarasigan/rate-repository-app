@@ -34,9 +34,11 @@ const AppBar = () => {
     const authStorage = useAuthStorage();
     const navigate = useNavigate();
 
-    const { data } = useQuery(USER_LOGGED_IN, {
+    const { data, loading } = useQuery(USER_LOGGED_IN, {
         fetchPolicy: 'cache-and-network',
     });
+
+    if (loading) return null;
 
     const isLoggedIn = data?.me !== null;
 
@@ -47,7 +49,7 @@ const AppBar = () => {
         console.log('sign out')
         await authStorage.removeAccessToken();
         await apolloClient.resetStore();
-        navigate('/sign-in');
+        navigate('/signin');
     }
 
     return (
@@ -68,6 +70,11 @@ const AppBar = () => {
                         <View style={[styles.appBar.tab, { marginLeft: 30 }]}>
                             <Text onPress={() => navigate('/createReview')} style={styles.appBar.title}>
                                 Create a Review
+                            </Text>
+                        </View>
+                        <View style={[styles.appBar.tab, { marginLeft: 30 }]}>
+                            <Text onPress={() => navigate('/myReviews')} style={styles.appBar.title}>
+                                My reviews
                             </Text>
                         </View>
                         <View style={[styles.appBar.tab, { marginLeft: 30 }]}>

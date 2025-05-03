@@ -1,11 +1,11 @@
-import { Text, View, TextInput, StyleSheet, Pressable } from 'react-native';
+import { Text, View, TextInput, StyleSheet } from 'react-native';
 import { Navigate } from 'react-router-native';
 import { useMutation, useQuery } from '@apollo/client';
 import { useFormik } from 'formik';
 import * as yup from 'yup'
 import { useNavigate } from 'react-router-native';
 import { CREATE_REVIEW, USER_LOGGED_IN } from '../graphql/queries';
-import theme from '../theme/theme';
+import FullWidthButton from './FullWidthButton';
 
 const styles = StyleSheet.create({
     form: {
@@ -123,10 +123,7 @@ export const ReviewForm = ({ onSubmit }) => {
                 <Text style={styles.errorText}>{formik.errors.text}</Text>
             )}
 
-
-            <Pressable style={theme.button} onPress={formik.handleSubmit}>
-                <Text style={theme.buttonText}>Create a review</Text>
-            </Pressable>
+            <FullWidthButton label="Create a review" onPress={formik.handleSubmit} />
         </View>
     )
 }

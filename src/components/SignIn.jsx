@@ -1,9 +1,9 @@
-import { Text, View, TextInput, StyleSheet, Pressable } from 'react-native';
+import { Text, View, TextInput, StyleSheet } from 'react-native';
 import { useFormik } from 'formik';
 import * as yup from 'yup'
 import useSignIn from '../hooks/useSignIn';
 import { useNavigate } from 'react-router-native';
-import theme from '../theme/theme';
+import FullWidthButton from './FullWidthButton';
 
 const styles = StyleSheet.create({
     form: {
@@ -85,9 +85,7 @@ export const SignInForm = ({ onSubmit }) => {
             {formik.touched.password && formik.errors.password && (
                 <Text style={styles.errorText}>{formik.errors.password}</Text>
             )}
-            <Pressable style={theme.button} onPress={formik.handleSubmit}>
-                <Text style={theme.buttonText}>Sign In</Text>
-            </Pressable>
+            <FullWidthButton label="Sign In" onPress={formik.handleSubmit} />
         </View>
     )
 }
