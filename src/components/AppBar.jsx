@@ -36,6 +36,9 @@ const AppBar = () => {
 
     const { data, loading } = useQuery(USER_LOGGED_IN, {
         fetchPolicy: 'cache-and-network',
+        variables: {
+            "includeReviews": false
+        }
     });
 
     if (loading) return null;

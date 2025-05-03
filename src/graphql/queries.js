@@ -29,12 +29,28 @@ mutation Authenticate($credentials: AuthenticateInput!) {
 `;
 
 export const USER_LOGGED_IN = gql`
-  query {
+query getCurrentUser($includeReviews: Boolean = false) {
     me {
       id
       username
+      reviews @include(if: $includeReviews) {
+        edges {
+          node {
+            id
+            rating
+            user {
+              username
+            }
+            createdAt
+            text
+            repository {
+              fullName
+            }
+          }
+        }
+      }
     }
-  }
+}
 `;
 
 export const SINGLE_REPO = gql`

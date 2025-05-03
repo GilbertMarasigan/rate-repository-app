@@ -1,5 +1,6 @@
-import { View, Text, StyleSheet } from "react-native"
+import { View, Text, StyleSheet, Pressable } from "react-native"
 import { formatToMMddyyyy } from '../utils/dateFormatter';
+import { useNavigate } from "react-router-native";
 
 const size = 48;
 
@@ -82,31 +83,76 @@ const styles = StyleSheet.create({
     },
 });
 
+const handleDelete = () => {
+    console.log('handleDelete')
+}
 
-const ReviewItem = ({ review }) => {
+
+const ReviewItem = ({ review, view }) => {
 
     console.log('review', review)
-    return (
-        <>
-            <View style={styles.itemContainer}>
-                <View style={styles.scoreCircle}>
-                    <Text style={styles.scoreText}>{review.rating}</Text>
-                </View>
-                <View style={styles.commentContent}>
-                    <Text testID="title" style={styles.username}>
-                        {review.user.username}
-                    </Text>
-                    <Text testID="description" style={styles.date}>
-                        {formatToMMddyyyy(review.createdAt)}
-                    </Text>
-                    <Text testID="language" style={styles.commentText}>
-                        {review.text}
-                    </Text>
-                </View>
-            </View>
 
-        </>
-    )
+    console.log('view', view)
+
+    if (view === 'singleRepo') {
+        return (
+            <>
+                <View style={styles.itemContainer}>
+                    <View style={styles.scoreCircle}>
+                        <Text style={styles.scoreText}>{review.rating}</Text>
+                    </View>
+                    <View style={styles.commentContent}>
+                        <Text testID="title" style={styles.username}>
+                            {review.user.username}
+                        </Text>
+                        <Text testID="description" style={styles.date}>
+                            {formatToMMddyyyy(review.createdAt)}
+                        </Text>
+                        <Text testID="language" style={styles.commentText}>
+                            {review.text}
+                        </Text>
+                    </View>
+                </View>
+
+            </>
+        )
+    }
+    else {
+
+        const navigate = useNavigate();
+        // View for My Reviews
+        return (
+            <>
+                <View style={styles.itemContainer}>
+                    <View style={styles.scoreCircle}>
+                        <Text style={styles.scoreText}>{review.rating}</Text>
+                    </View>
+                    <View style={styles.commentContent}>
+                        <Text testID="title" style={styles.username}>
+                            {review.repository.fullName}
+                        </Text>
+                        <Text testID="description" style={styles.date}>
+                            {formatToMMddyyyy(review.createdAt)}
+                        </Text>
+                        <Text testID="language" style={styles.commentText}>
+                            {review.text}
+                        </Text>
+                    </View>
+                </View>
+                <View style={styles.container}>
+                    <Pressable style={styles.button} onPress={() => navigate(`/${review.repository.fullName}`)}>
+                        <Text style={styles.buttonText}>View Repository</Text>
+                    </Pressable>
+                </View>
+                <View style={styles.container}>
+                    <Pressable style={styles.button} onPress={handleDelete}>
+                        <Text style={styles.buttonText}>Delete review</Text>
+                    </Pressable>
+                </View>
+            </>
+        )
+    }
+
 }
 
 export default ReviewItem

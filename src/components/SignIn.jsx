@@ -102,7 +102,7 @@ const SignIn = () => {
         try {
             const token = await signIn(values);
             console.log('Access Token: ', token)
-            navigate(-1);
+            navigate('/');
         } catch (error) {
             console.error('Sign-in failed: ', error.message)
         }

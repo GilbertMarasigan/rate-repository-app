@@ -133,6 +133,9 @@ const CreateReview = () => {
 
     const { data } = useQuery(USER_LOGGED_IN, {
         fetchPolicy: 'cache-and-network',
+        variables: {
+            "includeReviews": false
+        }
     });
 
     const isLoggedIn = data?.me !== null;

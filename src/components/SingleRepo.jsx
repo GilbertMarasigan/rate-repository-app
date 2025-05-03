@@ -4,7 +4,8 @@ import { useParams } from "react-router-native";
 import { useQuery } from "@apollo/client";
 import { SINGLE_REPO } from "../graphql/queries";
 import { RepoDetails, RepoStats } from "./RepositoryItem";
-import { formatToMMddyyyy } from '../utils/dateFormatter';
+import ReviewItem from "./ReviewItem"
+
 import theme from '../theme/theme';
 
 const size = 48;
@@ -87,33 +88,6 @@ const styles = StyleSheet.create({
         minWidth: 0,
     },
 });
-
-
-const ReviewItem = ({ review }) => {
-
-    console.log('review', review)
-    return (
-        <>
-            <View style={styles.itemContainer}>
-                <View style={styles.scoreCircle}>
-                    <Text style={styles.scoreText}>{review.rating}</Text>
-                </View>
-                <View style={styles.commentContent}>
-                    <Text testID="title" style={styles.username}>
-                        {review.user.username}
-                    </Text>
-                    <Text testID="description" style={styles.date}>
-                        {formatToMMddyyyy(review.createdAt)}
-                    </Text>
-                    <Text testID="language" style={styles.commentText}>
-                        {review.text}
-                    </Text>
-                </View>
-            </View>
-
-        </>
-    )
-}
 
 
 const FullWidthButton = ({ link }) => {
@@ -205,6 +179,7 @@ const SingleRepo = () => {
 
     const item = data?.repository;
     console.log('repoDetails', item);
+    const reviews = item.reviews.edges.map(edge => edge.node);
 
     if (!item) {
         return (
@@ -218,8 +193,8 @@ const SingleRepo = () => {
     return (
         <>
             <FlatList
-                data={item.reviews.edges.map(edge => edge.node)}
-                renderItem={({ item }) => <ReviewItem review={item} />}
+                data={reviews}
+                renderItem={({ item }) => <ReviewItem review={item} view='singleRepo' />}
                 keyExtractor={({ id }) => id}
                 ListHeaderComponent={() => <RepositoryInfo repository={item} />}
                 ItemSeparatorComponent={ItemSeparator}
