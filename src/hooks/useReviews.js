@@ -25,7 +25,7 @@ const useReviews = () => {
 
     //console.log('GraphQL repositories data:', repositories);
 
-    console.log('reviews', reviews);
+    // console.log('reviews', reviews);
 
     return { reviews, loading, error, refetch };
 };

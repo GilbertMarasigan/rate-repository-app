@@ -116,10 +116,6 @@ const buttonStyles = StyleSheet.create({
 
 const ReviewItem = ({ review, view, refetch }) => {
 
-    console.log('review', review)
-
-    console.log('view', view)
-
     if (view === 'singleRepo') {
         return (
             <>
