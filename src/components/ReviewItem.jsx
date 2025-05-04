@@ -36,6 +36,10 @@ const styles = StyleSheet.create({
         height: 10,
         backgroundColor: '#bdbdbd'
     },
+    twoButtonContainer: {
+        display: 'flex',
+        flexDirection: 'row'
+    },
     itemContainer: {
         flexDirection: 'row',
         padding: 16,
@@ -82,6 +86,31 @@ const styles = StyleSheet.create({
         minWidth: 0,
     },
 });
+
+const buttonStyles = StyleSheet.create({
+    buttonContainer: {
+        flexDirection: 'row',
+        gap: 8,
+        paddingBottom: 12,
+        backgroundColor: 'white',
+    },
+    button: {
+        flex: 1,
+        paddingVertical: 12,
+        borderRadius: 6,
+        alignItems: 'center',
+    },
+    viewButton: {
+        backgroundColor: '#007BFF',
+    },
+    deleteButton: {
+        backgroundColor: '#FF3B30',
+    },
+    buttonText: {
+        color: '#fff',
+        fontWeight: 'bold',
+    },
+})
 
 const handleDelete = () => {
     console.log('handleDelete')
@@ -139,14 +168,12 @@ const ReviewItem = ({ review, view }) => {
                         </Text>
                     </View>
                 </View>
-                <View style={styles.container}>
-                    <Pressable style={styles.button} onPress={() => navigate(`/${review.repository.fullName}`)}>
-                        <Text style={styles.buttonText}>View Repository</Text>
+                <View style={buttonStyles.buttonContainer}>
+                    <Pressable style={[buttonStyles.button, buttonStyles.viewButton]} onPress={() => navigate(`/${review.repository.id}`)}>
+                        <Text style={buttonStyles.buttonText}>View Repository</Text>
                     </Pressable>
-                </View>
-                <View style={styles.container}>
-                    <Pressable style={styles.button} onPress={handleDelete}>
-                        <Text style={styles.buttonText}>Delete review</Text>
+                    <Pressable style={[buttonStyles.button, buttonStyles.deleteButton]} onPress={handleDelete}>
+                        <Text style={buttonStyles.buttonText}>Delete Review</Text>
                     </Pressable>
                 </View>
             </>

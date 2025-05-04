@@ -45,6 +45,7 @@ query getCurrentUser($includeReviews: Boolean = false) {
             text
             repository {
               fullName
+              id
             }
           }
         }
