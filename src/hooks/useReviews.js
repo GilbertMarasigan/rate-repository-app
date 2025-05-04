@@ -3,7 +3,7 @@ import { USER_LOGGED_IN } from '../graphql/queries';
 
 const useReviews = () => {
 
-    const { data, loading, error } = useQuery(USER_LOGGED_IN, {
+    const { data, loading, error, refetch } = useQuery(USER_LOGGED_IN, {
         fetchPolicy: 'cache-and-network',
         variables: {
             "includeReviews": true
@@ -27,7 +27,7 @@ const useReviews = () => {
 
     console.log('reviews', reviews);
 
-    return { reviews, loading, error };
+    return { reviews, loading, error, refetch };
 };
 
 export default useReviews;

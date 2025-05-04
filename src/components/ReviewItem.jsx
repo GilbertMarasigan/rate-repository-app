@@ -1,6 +1,8 @@
-import { View, Text, StyleSheet, Pressable } from "react-native"
+import { View, Text, StyleSheet, Pressable, Alert } from "react-native"
+import { useMutation } from "@apollo/client";
 import { formatToMMddyyyy } from '../utils/dateFormatter';
 import { useNavigate } from "react-router-native";
+import { DELETE_REVIEW } from "../graphql/queries";
 
 const size = 48;
 
@@ -112,12 +114,7 @@ const buttonStyles = StyleSheet.create({
     },
 })
 
-const handleDelete = () => {
-    console.log('handleDelete')
-}
-
-
-const ReviewItem = ({ review, view }) => {
+const ReviewItem = ({ review, view, refetch }) => {
 
     console.log('review', review)
 
@@ -149,6 +146,36 @@ const ReviewItem = ({ review, view }) => {
     else {
 
         const navigate = useNavigate();
+
+        const [deleteReview] = useMutation(DELETE_REVIEW)
+
+        const handleDelete = () => {
+            Alert.alert(
+                "Delete Review",
+                "Are you sure you want to delete this review?",
+                [
+                    {
+                        text: "Cancel",
+                        onPress: () => console.log("Cancel Pressed"),
+                        style: "cancel"
+                    },
+                    {
+                        text: "Delete",
+                        onPress: async () => {
+
+                            try {
+                                await deleteReview({ variables: { deleteReviewId: review.id } })
+                                console.log("Confirmed delete");
+                                refetch();
+                            } catch (error) {
+                                console.log('Error deleting review', error)
+                            }
+                        },
+                        style: "destructive"
+                    }
+                ]
+            );
+        };
         // View for My Reviews
         return (
             <>

@@ -12,12 +12,12 @@ const styles = StyleSheet.create({
 const ItemSeparator = () => <View style={styles.separator} />;
 
 
-export const ReviewList = ({ reviews }) => {
+export const ReviewList = ({ reviews, refetch }) => {
     return (
         <FlatList
             data={reviews}
             ItemSeparatorComponent={ItemSeparator}
-            renderItem={({ item }) => <ReviewItem review={item} />}
+            renderItem={({ item }) => <ReviewItem review={item} refetch={refetch} />}
             keyExtractor={(item) => item.id}
         />
     );
@@ -25,9 +25,9 @@ export const ReviewList = ({ reviews }) => {
 
 const MyReviews = () => {
 
-    const { reviews } = useReviews();
+    const { reviews, refetch } = useReviews();
 
-    return <ReviewList reviews={reviews} />;
+    return <ReviewList reviews={reviews} refetch={refetch} />;
 }
 
 export default MyReviews;
