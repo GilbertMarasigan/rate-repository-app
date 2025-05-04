@@ -1,4 +1,4 @@
-import { FlatList, View, StyleSheet, } from 'react-native';
+import { FlatList, View, StyleSheet, Text } from 'react-native';
 import ReviewItem from './ReviewItem';
 import useReviews from '../hooks/useReviews';
 
@@ -13,6 +13,11 @@ const ItemSeparator = () => <View style={styles.separator} />;
 
 
 export const ReviewList = ({ reviews, refetch }) => {
+
+    if (!reviews) {
+        <View><Text>No reviews yet.</Text></View>
+    }
+
     return (
         <FlatList
             data={reviews}

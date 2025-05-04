@@ -1,6 +1,6 @@
 import { FlatList, View, StyleSheet } from 'react-native';
-import { Menu, Button } from 'react-native-paper';
-import { useState } from 'react';
+import { Menu, Button, Searchbar } from 'react-native-paper';
+import { useState, useEffect } from 'react';
 import RepositoryItem from './RepositoryItem';
 import useRepositories from '../hooks/useRepositories';
 
@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
-const SortRepo = ({ setSortBy }) => {
+const SortRepo = ({ setSortBy, setSearchQuery, searchQuery }) => {
     const [visible, setVisible] = useState(false);
     const [selected, setSelected] = useState('latest');
 
@@ -49,8 +49,16 @@ const SortRepo = ({ setSortBy }) => {
 
     };
 
+    console.log('searchQuery', searchQuery)
+
     return (
         <View style={{ paddingHorizontal: 16, paddingVertical: 10 }}>
+            <Searchbar
+                placeholder="Search"
+                onChangeText={setSearchQuery}
+                value={searchQuery}
+                style={{ marginBottom: 16, marginTop: 8 }}
+            />
             <Menu
                 visible={visible}
                 onDismiss={closeMenu}
@@ -68,7 +76,7 @@ const SortRepo = ({ setSortBy }) => {
     );
 };
 
-export const RepositoryListContainer = ({ repositories, setSortBy, sortBy }) => {
+export const RepositoryListContainer = ({ repositories, setSortBy, sortBy, searchQuery, setSearchQuery }) => {
 
     return (
         <FlatList
@@ -76,7 +84,12 @@ export const RepositoryListContainer = ({ repositories, setSortBy, sortBy }) => 
             ItemSeparatorComponent={ItemSeparator}
             renderItem={({ item }) => <RepositoryItem item={item} />}
             keyExtractor={(item) => item.id}
-            ListHeaderComponent={<SortRepo sortBy={sortBy} setSortBy={setSortBy} />}
+            ListHeaderComponent={<SortRepo
+                sortBy={sortBy}
+                setSortBy={setSortBy}
+                searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}
+            />}
         />
     );
 };
@@ -88,8 +101,21 @@ const RepositoryList = () => {
         "orderDirection": "DESC"
     });
 
-    const { repositories } = useRepositories(sortBy);
-    return <RepositoryListContainer repositories={repositories} sortBy={sortBy} setSortBy={setSortBy} />;
+    const [searchQuery, setSearchQuery] = useState('');
+    const [debouncedSearchQuery, setDebouncedSearchQuery] = useState(searchQuery);
+
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            setDebouncedSearchQuery(searchQuery);
+        }, 500);
+
+        return () => clearTimeout(timeoutId);
+    }, [searchQuery]);
+
+    console.log('searchQuery', searchQuery)
+
+    const { repositories } = useRepositories(sortBy, debouncedSearchQuery);
+    return <RepositoryListContainer repositories={repositories} sortBy={sortBy} setSortBy={setSortBy} searchQuery={searchQuery} setSearchQuery={setSearchQuery} />;
 }
 
 export default RepositoryList;
