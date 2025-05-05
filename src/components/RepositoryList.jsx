@@ -76,7 +76,7 @@ const SortRepo = ({ setSortBy, setSearchQuery, searchQuery }) => {
     );
 };
 
-export const RepositoryListContainer = ({ repositories, setSortBy, sortBy, searchQuery, setSearchQuery }) => {
+export const RepositoryListContainer = ({ repositories, setSortBy, sortBy, searchQuery, setSearchQuery, onEndReached }) => {
 
     return (
         <FlatList
@@ -84,6 +84,8 @@ export const RepositoryListContainer = ({ repositories, setSortBy, sortBy, searc
             ItemSeparatorComponent={ItemSeparator}
             renderItem={({ item }) => <RepositoryItem item={item} />}
             keyExtractor={(item) => item.id}
+            onEndReached={onEndReached}
+            onEndReachedThreshold={0.5}
             ListHeaderComponent={<SortRepo
                 sortBy={sortBy}
                 setSortBy={setSortBy}
@@ -114,8 +116,20 @@ const RepositoryList = () => {
 
     console.log('searchQuery', searchQuery)
 
-    const { repositories } = useRepositories(sortBy, debouncedSearchQuery);
-    return <RepositoryListContainer repositories={repositories} sortBy={sortBy} setSortBy={setSortBy} searchQuery={searchQuery} setSearchQuery={setSearchQuery} />;
+    const { repositories, fetchMore } = useRepositories(sortBy, debouncedSearchQuery, 2);
+
+    const onEndReached = () => {
+        console.log('You have reached the end of the list');
+        fetchMore();
+    }
+
+    return <RepositoryListContainer
+        repositories={repositories}
+        sortBy={sortBy}
+        setSortBy={setSortBy}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        onEndReached={onEndReached} />;
 }
 
 export default RepositoryList;
