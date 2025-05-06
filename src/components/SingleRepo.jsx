@@ -141,10 +141,13 @@ const SingleRepo = () => {
 
     const [appState, setAppState] = useState(AppState.currentState);
 
-    const { data, loading, error, refetch } = useQuery(SINGLE_REPO, {
+    const firstValue = 4;
+
+    const { data, loading, error, refetch, fetchMore } = useQuery(SINGLE_REPO, {
         fetchPolicy: 'cache-and-network',
-        variables: { repositoryId: id }
+        variables: { repositoryId: id, reviewFirst: firstValue }
     });
+
 
     useEffect(() => {
         const subscription = AppState.addEventListener('change', nextAppState => {
@@ -177,9 +180,35 @@ const SingleRepo = () => {
         );
     }
 
+    const handleFetchMore = () => {
+
+        console.log('handleFetchMore()')
+        const canFetchMore = !loading && data?.repository?.reviews?.pageInfo?.hasNextPage;
+        const endCursor = !loading && data?.repository?.reviews?.pageInfo?.endCursor
+
+        console.log('canFetchMore:', canFetchMore);
+        console.log('endCursor:', endCursor);
+
+        if (!canFetchMore) {
+            return;
+        }
+
+        fetchMore({
+            variables: {
+                reviewAfter: endCursor,
+                reviewFirst: firstValue
+            },
+        })
+    }
+
     const item = data?.repository;
-    console.log('repoDetails', item);
+    //console.log('repoDetails', item);
+
+    //console.log('Edges', item.reviews.edges);
+
     const reviews = item.reviews.edges.map(edge => edge.node);
+
+    console.log('Review count:', reviews.length);
 
     if (!item) {
         return (
@@ -188,7 +217,7 @@ const SingleRepo = () => {
             </View>
         );
     }
-    console.log('repo comp', item)
+    //console.log('repo comp', item)
 
     return (
         <>
@@ -198,6 +227,8 @@ const SingleRepo = () => {
                 keyExtractor={({ id }) => id}
                 ListHeaderComponent={() => <RepositoryInfo repository={item} />}
                 ItemSeparatorComponent={ItemSeparator}
+                onEndReached={handleFetchMore}
+                onEndReachedThreshold={0.1}
             />
         </>
     )

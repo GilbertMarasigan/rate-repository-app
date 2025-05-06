@@ -20,7 +20,7 @@ const useRepositories = ({ orderBy, orderDirection }, debouncedSearchQuery, firs
         const endCursor = !loading && data?.repositories?.pageInfo?.endCursor
 
         console.log('canFetchMore:', canFetchMore);
-        console.log('endCursor:', data?.repositories?.pageInfo?.endCursor);
+        console.log('endCursor:', endCursor);
 
         if (!canFetchMore) {
             return;
@@ -28,12 +28,11 @@ const useRepositories = ({ orderBy, orderDirection }, debouncedSearchQuery, firs
 
         fetchMore({
             variables: {
-                after: data.repositories.pageInfo.endCursor,
+                after: endCursor,
                 orderBy,
                 orderDirection,
                 searchKeyword: debouncedSearchQuery,
-                first,
-                endCursor: endCursor
+                first
             }
         })
     }

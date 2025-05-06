@@ -73,19 +73,19 @@ query getCurrentUser($includeReviews: Boolean = false) {
 `;
 
 export const SINGLE_REPO = gql`
-query Repository($repositoryId: ID!) {
+query Repository($repositoryId: ID!, $reviewFirst: Int, $reviewAfter: String) {
   repository(id: $repositoryId) {
-    id,
-    fullName,
-    url,
-    ownerAvatarUrl,
-    description,
-    language,
-    stargazersCount,
-    forksCount,
-    reviewCount,
-    ratingAverage,
-    reviews {
+    id
+    fullName
+    url
+    ownerAvatarUrl
+    description
+    language
+    stargazersCount
+    forksCount
+    reviewCount
+    ratingAverage
+    reviews(first: $reviewFirst, after: $reviewAfter) {
       edges {
         node {
           id
@@ -97,6 +97,12 @@ query Repository($repositoryId: ID!) {
             username
           }
         }
+        cursor
+      }
+      pageInfo {
+        endCursor
+        startCursor
+        hasNextPage
       }
     }
   }
