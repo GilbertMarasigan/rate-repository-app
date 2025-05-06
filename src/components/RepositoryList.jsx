@@ -114,9 +114,20 @@ const RepositoryList = () => {
         return () => clearTimeout(timeoutId);
     }, [searchQuery]);
 
+    useEffect(() => {
+        if (debouncedSearchQuery === '') {
+            // Explicitly refetch all repositories when search is cleared
+            refetch({
+                ...sortBy,
+                searchKeyword: '',
+                first: 8
+            });
+        }
+    }, [debouncedSearchQuery]);
+
     console.log('searchQuery', searchQuery)
 
-    const { repositories, fetchMore } = useRepositories(sortBy, debouncedSearchQuery, 2);
+    const { repositories, fetchMore, refetch } = useRepositories(sortBy, debouncedSearchQuery, 2);
 
     const onEndReached = () => {
         console.log('You have reached the end of the list');
